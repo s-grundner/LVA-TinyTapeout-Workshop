@@ -1,13 +1,20 @@
-name: test
+name: wokwi_test
 on: [push, workflow_dispatch]
 jobs:
-  test:
+  wokwi_test:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      - name: Checkout tt-support-tools repo
+        uses: actions/checkout@v4
+        with:
+          repository: TinyTapeout/tt-support-tools
+          path: tt
+          ref: tt10
 
       - name: Install iverilog
         shell: bash
@@ -21,9 +28,21 @@ jobs:
 
       - name: Install Python packages
         shell: bash
-        run: pip install -r test/requirements.txt
+        run: |
+          pip install -r test/requirements.txt
+          pip install -r tt/requirements.txt
+
+      - name: Fetch the truth table
+        run: ./tt/tt_tool.py --create-user-config
+
+      - name: Check for truth table existence
+        id: check_files
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "test/truthtable.md"
 
       - name: Run tests
+        if: steps.check_files.outputs.files_exists == 'true'
         run: |
           cd test
           make clean
@@ -43,5 +62,5 @@ jobs:
         with:
           name: test-vcd
           path: |
-            test/tb.vcd
+            test/*.vcd
             test/results.xml

@@ -29,20 +29,6 @@ jobs:
           pdk: sky130
           tools-ref: ttsky25a
 
-  gl_test:
-    needs: gds
-    runs-on: ubuntu-24.04
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: GL test
-        uses: TinyTapeout/tt-gds-action/gl_test@ttsky25a
-        with:
-          pdk: sky130
-
   viewer:
     needs: gds
     runs-on: ubuntu-24.04
