@@ -1,8 +1,13 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
+# IIC - Integrated Circuits Design KV
+
+- [Moodle Course](https://moodle.jku.at/course/view.php?id=39685)
+- [Tiny Tapeout Website](https://tinytapeout.com)
+
 # Tiny Tapeout Verilog Project Template
 
-- [Read the documentation for project](docs/info.md)
+- [Read the documentation for project](docs/info.md)  
 
 ## What is Tiny Tapeout?
 
