@@ -34,14 +34,14 @@ pinout:
   ui[7]: ""
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[0]: "cnt_bit0"
+  uo[1]: "cnt_bit1"
+  uo[2]: "cnt_bit2"
+  uo[3]: "cnt_bit3"
+  uo[4]: "cnt_bit4"
+  uo[5]: "cnt_bit5"
+  uo[6]: "cnt_bit6"
+  uo[7]: "cnt_bit7"
 
   # Bidirectional pins
   uio[0]: ""
