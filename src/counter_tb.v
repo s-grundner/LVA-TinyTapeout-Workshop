@@ -19,7 +19,7 @@ module counter_tb;
 		#(BW)
 		counter_dut (
 			.clk_i(clk_i),
-			.rst_i(rst_i),
+			.nrst_i(rst_i),
 			.counter_val_o(cnt_val)
 		);
 	

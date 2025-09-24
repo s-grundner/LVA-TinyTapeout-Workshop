@@ -20,12 +20,11 @@ module tt_um_s_grundner (
     #(8)
     counter_dut (
       .clk_i(clk),
-      .rst_i(rst_n),
+      .nrst_i(rst_n),
       .counter_val_o(uo_out)
     );
 
   // All output pins must be assigned. If not used, assign to 0.
-
   assign uio_out = 0;
   assign uio_oe  = 0;
 
