@@ -16,13 +16,22 @@ module tt_um_s_grundner (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  counter
-    #(8)
-    counter_dut (
+  // counter
+  //   #(8)
+  //   counter_dut (
+  //     .clk_i(clk),
+  //     .nrst_i(rst_n),
+  //     .counter_val_o(uo_out)
+  //   );
+
+  rx
+    rx_dut (
       .clk_i(clk),
       .nrst_i(rst_n),
-      .counter_val_o(uo_out)
+      .rxData_i(ui_in[0]), // midi_rx
+      .midiData_o(uo_out) // midi data output
     );
+
 
   // All output pins must be assigned. If not used, assign to 0.
   assign uio_out = 0;

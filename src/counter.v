@@ -24,9 +24,9 @@ module counter
     // assign the counter value to the output
     assign counter_val_o = counter_val;
 
-    always @(posedge clk_i) begin
+    always @(posedge clk_i or negedge nrst_i) begin
         // gets active whenever a positive edge of the clock signal occurs
-        if (nrst_i == 1'b0) begin // if reset is enabled
+        if (!nrst_i) begin // if reset is enabled
             counter_val <= {BW{1'b0}};
         end else begin
             counter_val <= counter_val + {{(BW-1){1'b0}}, 1'b1};
