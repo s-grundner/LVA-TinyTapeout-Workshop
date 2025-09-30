@@ -1,38 +1,36 @@
-/*
-Simple counter with generic bitwidth
-*/
+/*******************************************************************************
+* @file    : counter.v                                                         *
+* @author  : @s-grundner                                                       *
+* @license : Apache-2.0                                                        *
+* @brief   : Counter module. Counts up on each clock cycle                     *
+*******************************************************************************/
 
 `default_nettype none
 `ifndef __COUNTER__
-`define __COUNTER__
+`define __COUNTER__ 
 
-module counter
-#(
-    parameter BW = 8 // optional parameter
+module counter #(
+    parameter BW = 8
 ) (
-    // define I/O's of the module
-    input                clk_i,
-    input                nrst_i,
-    output wire [BW-1:0] counter_val_o
+    input clk_i,
+    input nrst_i,
+    input nrstSync_i,
+    output wire [BW-1:0] count_o
 );
 
-    // start the module implementation
-
-    // register to store the counter value
-    reg [BW-1:0] counter_val;
-
-    // assign the counter value to the output
-    assign counter_val_o = counter_val;
+    reg [BW-1:0] count_r;
+    assign count_o = count_r;
 
     always @(posedge clk_i or negedge nrst_i) begin
-        // gets active whenever a positive edge of the clock signal occurs
-        if (!nrst_i) begin // if reset is enabled
-            counter_val <= {BW{1'b0}};
-        end else begin
-            counter_val <= counter_val + {{(BW-1){1'b0}}, 1'b1};
+        if (!nrst_i) begin
+            count_r <= {BW{1'b0}};
+        end else if (!nrstSync_i) begin
+            count_r <= {BW{1'b0}};
+		end else begin
+            count_r <= count_r + {{(BW - 1) {1'b0}}, 1'b1};
         end
     end
-endmodule // counter
+endmodule  // counter
 
 `endif
 `default_nettype wire

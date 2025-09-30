@@ -24,20 +24,19 @@ module tt_um_s_grundner (
   //     .counter_val_o(uo_out)
   //   );
 
-  rx
-    rx_dut (
-      .clk_i(clk),
-      .nrst_i(rst_n),
-      .rxData_i(ui_in[0]), // midi_rx
-      .midiData_o(uo_out) // midi data output
+    rx rx_dut (
+        .clk_i(clk),
+        .nrst_i(rst_n),
+        .rxData_i(ui_in[0]), // midi_rx
+        .midiData_o(uo_out) // midi data output
     );
 
 
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uio_out = 0;
-  assign uio_oe  = 0;
+    // All output pins must be assigned. If not used, assign to 0.
+    assign uio_out = 0;
+    assign uio_oe    = 0;
 
-  // List all unused inputs to prevent warnings
-  wire _unused = &{ena, 1'b0};
+    // List all unused inputs to prevent warnings
+    wire _unused = &{ena, 1'b0};
 
 endmodule
