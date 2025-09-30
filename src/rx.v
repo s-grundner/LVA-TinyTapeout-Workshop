@@ -11,6 +11,7 @@ module rx (
     input wire clk_i,
     input wire nrst_i,
     input wire rxData_i,
+    output wire dataReady_o,
     output reg [PAYLOAD_BITS-1:0] midiData_o
 );
     // ----------------------- External Parameters ---------------------------- //
@@ -58,6 +59,7 @@ module rx (
                                             (fsmState == FSM_STOP) &&
                                             (cycleCounter == COUNT_REG_LEN'(CYCLES_PER_BIT/2));
     wire payloadDone = (bitCounter == PAYLOAD_BITS);
+    assign dataReady_o = payloadDone;
 
     // Select Next State
     always @(*) begin : nextFsmState_p
