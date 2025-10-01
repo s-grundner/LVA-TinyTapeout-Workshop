@@ -24,8 +24,6 @@ module midi #(
     localparam CMD_BITS = 4;
     localparam CMD_NOTE_ON  = 4'b1001;
     localparam CMD_NOTE_OFF = 4'b1000;
-    localparam CMD_CHANNEL_PRESSURE = 4'b1011;
-    localparam CMD_PROG_CHANGE = 4'b1101;
 
     localparam FSM_IDLE = 0;
     localparam FSM_CMD = 1;

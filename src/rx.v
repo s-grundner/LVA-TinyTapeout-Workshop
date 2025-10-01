@@ -49,9 +49,9 @@ module rx (
     // --------------------- Combinatorial Processes -------------------------- //
 
     // Next State Conditions
-    wire nextBitReady = (cycleCounter == CYCLES_PER_BIT) ||
+    wire nextBitReady = (cycleCounter == COUNT_REG_LEN'(CYCLES_PER_BIT)) ||
                         (fsmState == FSM_STOP) &&
-                        (cycleCounter == CYCLES_PER_BIT/2);
+                        (cycleCounter == COUNT_REG_LEN'(CYCLES_PER_BIT/2));
     wire payloadDone = (bitCounter == `MIDI_PAYLOAD_BITS);
     assign dataReady_o = payloadDone;
 
