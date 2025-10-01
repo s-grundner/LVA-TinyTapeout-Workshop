@@ -19,12 +19,12 @@ project:
   source_files:
     - top_level.v
     - global.v
-    - counter.v
-    - pwm.v
-    - rx.v
-    - osc.v
     - synth.v
+    - osc.v
     - midi.v
+    - rx.v
+    - pwm.v
+    - counter.v
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
