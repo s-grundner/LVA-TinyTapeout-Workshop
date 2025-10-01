@@ -14,6 +14,7 @@ PROJECT_SOURCES += pwm.v
 
 # Modules
 PROJECT_SOURCES += rx.v
+PROJECT_SOURCES += midi.v
 PROJECT_SOURCES += osc.v
 PROJECT_SOURCES += synth.v
 
