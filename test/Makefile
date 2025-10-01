@@ -6,8 +6,16 @@ SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
 PROJECT_SOURCES = top_level.v
-# PROJECT_SOURCES += counter.v
+PROJECT_SOURCES += global.v
+
+# Submodules
+PROJECT_SOURCES += counter.v
+PROJECT_SOURCES += pwm.v
+
+# Modules
 PROJECT_SOURCES += rx.v
+PROJECT_SOURCES += osc.v
+PROJECT_SOURCES += synth.v
 
 ifneq ($(GATES),yes)
 

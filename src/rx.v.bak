@@ -17,7 +17,7 @@ module rx (
 
     // ----------------------- Internal Parameters ---------------------------- //
 
-    localparam CYCLES_PER_BIT = `F_CLK_HZ / `F_BAUD;
+    localparam CYCLES_PER_BIT = `F_BAUD_PERIOD_NS / `F_CLK_PERIOD_NS;
     localparam COUNT_REG_LEN = 1 + $clog2(CYCLES_PER_BIT);
 
     // FSM States
@@ -49,10 +49,10 @@ module rx (
     // --------------------- Combinatorial Processes -------------------------- //
 
     // Next State Conditions
-    wire nextBitReady = (cycleCounter == CYCLES_PER_BIT) ||
+    wire nextBitReady = (cycleCounter == COUNT_REG_LEN'(CYCLES_PER_BIT)) ||
                         (fsmState == FSM_STOP) &&
-                        (cycleCounter == CYCLES_PER_BIT/2);
-    wire payloadDone = (bitCounter == 8'd8);
+                        (cycleCounter == COUNT_REG_LEN'(CYCLES_PER_BIT/2));
+    wire payloadDone = (bitCounter == `MIDI_PAYLOAD_BITS);
     assign dataReady_o = payloadDone;
 
     // Select Next State
@@ -66,12 +66,13 @@ module rx (
         endcase
     end
 
+
     // ------------------------ Register Processes ---------------------------- //
 
     // Register Output
     always @(posedge clk_i or negedge nrst_i) begin : output_p
         if (!nrst_i) begin
-            midiData_o <= 8'b0;
+            midiData_o <= {`MIDI_PAYLOAD_BITS{1'b0}};
         end else if (fsmState == FSM_STOP) begin
             midiData_o <= midiData;
         end
@@ -81,7 +82,7 @@ module rx (
     always @(posedge clk_i or negedge nrst_i) begin : sampleBit_p
         if (!nrst_i) begin
             sampledBit <= 1'b0;
-        end else if (cycleCounter == CYCLES_PER_BIT / 2) begin
+        end else if (cycleCounter == COUNT_REG_LEN'(CYCLES_PER_BIT / 2)) begin
             // Take sample in the middle of a bit
             sampledBit <= rxDataReg0;
         end
@@ -111,9 +112,9 @@ module rx (
     integer i = 0;
     always @(posedge clk_i or negedge nrst_i) begin : updRxBuffer_p
         if (!nrst_i) begin
-            midiData <= 8'b0;
+            midiData <= {`MIDI_PAYLOAD_BITS{1'b0}};
         end else if (fsmState == FSM_IDLE) begin
-            midiData <= 8'b0;
+            midiData <= {`MIDI_PAYLOAD_BITS{1'b0}};
         end else if (fsmState == FSM_RECV && nextBitReady) begin
             midiData[`MIDI_PAYLOAD_BITS-1] <= sampledBit;
             for (i = `MIDI_PAYLOAD_BITS - 2; i >= 0; i = i - 1) begin
@@ -125,11 +126,11 @@ module rx (
     // Increment Cycle Counter
     always @(posedge clk_i or negedge nrst_i) begin : countCycles_p
         if (!nrst_i) begin
-            cycleCounter <= 12'b0;
+            cycleCounter <= {COUNT_REG_LEN{1'b0}};
         end else if (nextBitReady) begin
-            cycleCounter <= 12'b0;
+            cycleCounter <= {COUNT_REG_LEN{1'b0}};
         end else if (fsmState == FSM_START || fsmState == FSM_RECV || fsmState == FSM_STOP) begin
-            cycleCounter <= cycleCounter + 12'b1;
+            cycleCounter <= cycleCounter + 1'b1;
         end
     end
 
@@ -138,9 +139,9 @@ module rx (
         if (!nrst_i) begin
             bitCounter <= 4'b0;
         end else if (fsmState != FSM_RECV) begin
-            bitCounter <= 4'b0;
+            bitCounter <= {COUNT_REG_LEN{1'b0}};
         end else if (fsmState == FSM_RECV && nextBitReady) begin
-            bitCounter <= bitCounter + 4'b1;
+            bitCounter <= bitCounter + 1'b1;
         end
     end
 
