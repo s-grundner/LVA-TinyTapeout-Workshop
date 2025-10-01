@@ -19,7 +19,7 @@ module tt_um_s_grundner (
     synth synth_inst (
         .clk_i(clk),
         .nrst_i(rst_n),
-        .rxData_i(uio_in[0]),
+        .rxData_i(ui_in[0]),
         .oscOut_o(uo_out[6:0]),
         .activeOscPwm_o(uo_out[7])
     );

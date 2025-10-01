@@ -81,7 +81,7 @@ module rx (
     always @(posedge clk_i or negedge nrst_i) begin : sampleBit_p
         if (!nrst_i) begin
             sampledBit <= 1'b0;
-        end else if (cycleCounter == CYCLES_PER_BIT / 2) begin
+        end else if (cycleCounter == COUNT_REG_LEN'(CYCLES_PER_BIT / 2)) begin
             // Take sample in the middle of a bit
             sampledBit <= rxDataReg0;
         end
