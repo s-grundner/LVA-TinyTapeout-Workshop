@@ -16,14 +16,23 @@ module tt_um_s_grundner (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-    synth synth_inst (
+    // synth synth_inst (
+    //     .clk_i(clk),
+    //     .nrst_i(rst_n),
+    //     .rxData_i(ui_in[0]),
+    //     .oscOut_o(uo_out[6:0]),
+    //     .activeOscPwm_o(uo_out[7])
+    // );
+    
+    wire midiByteValid;
+
+    rx rx_inst (
         .clk_i(clk),
         .nrst_i(rst_n),
         .rxData_i(ui_in[0]),
-        .oscOut_o(uo_out[6:0]),
-        .activeOscPwm_o(uo_out[7])
+        .dataReady_o(midiByteValid),
+        .midiData_o(uo_out[7:0])
     );
-
 
     // All output pins must be assigned. If not used, assign to 0.
     assign uio_out = 0;
