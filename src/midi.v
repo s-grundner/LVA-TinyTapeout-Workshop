@@ -77,7 +77,7 @@ module midi #(
     
     always @(posedge clk_i or negedge nrst_i) begin : midiNote_p
         if (!nrst_i) begin
-            note <= {`MIDI_PAYLOAD_BITS'{0}};
+            note <= {`MIDI_PAYLOAD_BITS'{1'b0}};
         end else if (fsmState == FSM_VAL && chValid) begin
             note <= midiByte_i;
         end
