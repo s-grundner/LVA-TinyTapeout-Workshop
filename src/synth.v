@@ -34,16 +34,16 @@ module synth (
         .midiData_o(midiByte)
     );
 
-    // midi #(
-    //     .MIDI_CHANNEL(0)
-    // ) midi_inst (
-    //     .clk_i(clk_i),
-    //     .nrst_i(nrst_i),
-    //     .midiByte_i(midiByte),
-    //     .midiByteValid_i(midiByteValid),
-    //     .note_o(note),
-    //     .noteOnStrb_o(noteOnStrb),
-    //     .noteOffStrb_o(noteOffStrb)
-    // );
+    midi #(
+        .MIDI_CHANNEL(0)
+    ) midi_inst (
+        .clk_i(clk_i),
+        .nrst_i(nrst_i),
+        .midiByte_i(midiByte),
+        .midiByteValid_i(midiByteValid),
+        .note_o(note),
+        .noteOnStrb_o(noteOnStrb),
+        .noteOffStrb_o(noteOffStrb)
+    );
 
 endmodule
