@@ -21,8 +21,8 @@ module synth (
     wire midiByteValid;
     wire [`MIDI_PAYLOAD_BITS-1:0] midiByte;
     
-    assign activeOscPwm_o = 1'b0;
-    assign oscOut_o = `OSC_VOICES'b0;
+    assign activeOscPwm_o = midiByteValid;
+    assign oscOut_o = midiByte[`OSC_VOICES-1:0];
 
     // ---------------------------- Modules --------------------------------- //
 
@@ -34,16 +34,16 @@ module synth (
         .midiData_o(midiByte)
     );
 
-    midi #(
-        .MIDI_CHANNEL(0)
-    ) midi_inst (
-        .clk_i(clk_i),
-        .nrst_i(nrst_i),
-        .midiByte_i(midiByte),
-        .midiByteValid_i(midiByteValid),
-        .note_o(note),
-        .noteOnStrb_o(noteOnStrb),
-        .noteOffStrb_o(noteOffStrb)
-    );
+    // midi #(
+    //     .MIDI_CHANNEL(0)
+    // ) midi_inst (
+    //     .clk_i(clk_i),
+    //     .nrst_i(nrst_i),
+    //     .midiByte_i(midiByte),
+    //     .midiByteValid_i(midiByteValid),
+    //     .note_o(note),
+    //     .noteOnStrb_o(noteOnStrb),
+    //     .noteOffStrb_o(noteOffStrb)
+    // );
 
 endmodule
