@@ -52,7 +52,7 @@ module rx (
     wire nextBitReady = (cycleCounter == CYCLES_PER_BIT) ||
                         (fsmState == FSM_STOP) &&
                         (cycleCounter == CYCLES_PER_BIT/2);
-    wire payloadDone = (bitCounter == 8'd8);
+    wire payloadDone = (bitCounter == `MIDI_PAYLOAD_BITS);
     assign dataReady_o = payloadDone;
 
     // Select Next State
@@ -111,9 +111,9 @@ module rx (
     integer i = 0;
     always @(posedge clk_i or negedge nrst_i) begin : updRxBuffer_p
         if (!nrst_i) begin
-            midiData <= 8'b0;
+            midiData <= `MIDI_PAYLOAD_BITS'b0;
         end else if (fsmState == FSM_IDLE) begin
-            midiData <= 8'b0;
+            midiData <= `MIDI_PAYLOAD_BITS'b0;
         end else if (fsmState == FSM_RECV && nextBitReady) begin
             midiData[`MIDI_PAYLOAD_BITS-1] <= sampledBit;
             for (i = `MIDI_PAYLOAD_BITS - 2; i >= 0; i = i - 1) begin
