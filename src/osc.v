@@ -11,6 +11,7 @@ module osc (
     input wire clk_i,
     input wire nrst_i,
     input wire nrstPhase_i,
+    input wire enable_i,
     input wire [7:0] note_i,
     output wire wave_o
 );

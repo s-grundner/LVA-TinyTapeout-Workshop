@@ -6,6 +6,8 @@
 *            stack.                                                            *
 *******************************************************************************/
 
+`include "global.v"
+
 module synth (
     input wire clk_i,
     input wire nrst_i,
@@ -22,7 +24,6 @@ module synth (
     wire [`MIDI_PAYLOAD_BITS-1:0] midiByte;
     
     assign activeOscPwm_o = noteOnStrb;
-    assign oscOut_o = note[`OSC_VOICES-1:0];
 
     // ---------------------------- Modules --------------------------------- //
 
@@ -45,5 +46,36 @@ module synth (
         .noteOnStrb_o(noteOnStrb),
         .noteOffStrb_o(noteOffStrb)
     );
+
+    reg [3:0] oscCount;
+    
+    always @(posedge clk_i or negedge nrst_i) begin
+        if (!nrst_i) begin
+            oscCount <= 4'b0;
+        end else if (noteOnStrb) begin
+            oscCount <= oscCount + 4'b1;
+        end else if (noteOffStrb) begin
+            oscCount <= oscCount - 4'b1;
+        end
+    end
+
+    // Generate Oscillator stack
+
+    wire [`OSC_VOICES-1:0] wave;
+
+    genvar i;
+    generate
+        for (i = 0; i < `OSC_VOICES; i = i + 1) begin : oscStack_gen
+            osc osc_inst (
+                .clk_i(clk_i),
+                .nrst_i(nrst_i),
+                .nrstPhase_i(1'b1),
+                .note_i(8'b0),
+                .enable_i(i < oscCount),
+                .wave_o(oscOut_o[i])
+            );
+        end
+    endgenerate
+    
 
 endmodule
