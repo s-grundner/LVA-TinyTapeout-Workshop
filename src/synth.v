@@ -21,8 +21,8 @@ module synth (
     wire midiByteValid;
     wire [`MIDI_PAYLOAD_BITS-1:0] midiByte;
     
-    assign activeOscPwm_o = midiByteValid;
-    assign oscOut_o = midiByte[`OSC_VOICES-1:0];
+    assign activeOscPwm_o = noteOnStrb;
+    assign oscOut_o = note[`OSC_VOICES-1:0];
 
     // ---------------------------- Modules --------------------------------- //
 
